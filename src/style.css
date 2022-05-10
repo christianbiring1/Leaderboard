@@ -1,0 +1,49 @@
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color:#8080801a;
+}
+
+.wrapper {
+  margin: 3rem;
+  width: 80%;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 30px auto;
+}
+
+.title-left {
+  display: flex;
+  gap: 20px;
+}
+
+button {
+  padding: 0.3rem 0.5rem;
+  box-shadow: 3px 3px 3px #000;
+  border-color: #000;
+  font-size: 15px;
+  font-family: sans-serif;
+}
+.add {
+  margin-top: 20px;
+  float: right;
+}
+
+input {
+  margin-top: 20px;
+  border-color: #000;
+  padding: 0.45rem 0.5rem;
+  font-size: 15px;
+}
+
