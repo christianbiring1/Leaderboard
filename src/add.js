@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 /* eslint-disable prefer-const */
 
 import refresher from './refresh.js';
@@ -20,6 +19,18 @@ form.addEventListener('submit', (e) => {
   e.preventDefault();
 });
 
+function palmares(data) {
+  scoreContainer.innerHTML += `<li class="stat"><span class="player-name">${data.user}:</span>
+                                   <span class="player-score">${data.score}</span></li>`;
+}
+
+function clearField() {
+  const name = inputName;
+  const score = inputScore;
+  name.value = '';
+  score.value = '';
+}
+
 function addScore() {
   const addButton = document.querySelector('.add');
   addButton.addEventListener('click', () => {
@@ -39,21 +50,50 @@ function addScore() {
 }
 addScore();
 
-function palmares(data) {
-  scoreContainer.innerHTML += `<li class="stat"><span class="player-name">${data.name}:</span>
-                                   <span class="player-score">${data.score}</span></li>`;
-}
-
 recentScore.forEach((score) => {
   palmares(score);
   scoreContainer.style.border = '2px solid #000';
 });
 
-function clearField() {
-  const name = inputName;
-  const score = inputScore;
-  name.value = '';
-  score.value = '';
-}
-
 refresher();
+
+const baseUrl = fetch('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/:id/scores/');
+
+async function getData() {
+  try {
+    const data = await baseUrl;
+    const response = await data.json();
+    const recentScore = response.result.map((item) => item);
+    recentScore.forEach((game) => {
+      palmares(game);
+    });
+    console.log(recentScore);
+  } catch (error) {
+    // return 'error';
+  }
+}
+getData();
+
+// async function addGame() {
+//   const user = inputName.value;
+//   const score = inputScore.value;
+//   try {
+//     const newGame = new Score(user, score);
+//     const config = {
+//       method: 'POST',
+//       headers: {
+//         Accept: 'application/json',
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(newGame),
+//     };
+
+//     const data = await fetch(baseUrl, config);
+//     recentScore.push(newGame);
+//     palmares();
+//   } catch (error) {
+//     return error;
+//   }
+// }
+
+// addGame();
