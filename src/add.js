@@ -22,12 +22,12 @@ function palmares(data) {
                                    <span class="player-score">${data.score}</span></li>`;
 }
 
-function clearField() {
+const clearField = () => {
   const name = inputName;
   const score = inputScore;
   name.value = '';
   score.value = '';
-}
+};
 
 const url = 'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/';
 const gameId = () => {
@@ -45,7 +45,7 @@ gameId(url);
 
 const urlExample = `${url}TmfTBSDlBvHPPY995ITG/scores`;
 
-async function addGame(urlExample, newGame) {
+const addGame = async (urlExample, newGame) => {
   await fetch(urlExample, {
     method: 'POST',
     headers: {
@@ -53,9 +53,9 @@ async function addGame(urlExample, newGame) {
     },
     body: JSON.stringify(newGame),
   }).then((response) => response.json());
-}
+};
 
-async function getData(url) {
+const getData = async (url) => {
   const a = await fetch(url);
   const b = await a.json();
   recentScore = b.result;
@@ -63,7 +63,7 @@ async function getData(url) {
     palmares(score);
   });
   localStorage.setItem('scores', JSON.stringify(recentScore));
-}
+};
 
 const addButton = document.querySelector('.add');
 addButton.addEventListener('click', () => {
