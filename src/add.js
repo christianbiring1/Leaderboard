@@ -1,6 +1,4 @@
-/* eslint-disable prefer-const */
-
-import refresher from './refresh.js';
+// import refresher from './refresh.js';
 
 const scoreContainer = document.querySelector('.palmares');
 const form = document.querySelector('.form');
@@ -8,8 +6,8 @@ const inputName = document.querySelector('.name');
 const inputScore = document.querySelector('.score');
 
 class Score {
-  constructor(name, score) {
-    this.name = name;
+  constructor(user, score) {
+    this.user = user;
     this.score = score;
   }
 }
@@ -31,69 +29,62 @@ function clearField() {
   score.value = '';
 }
 
-function addScore() {
-  const addButton = document.querySelector('.add');
-  addButton.addEventListener('click', () => {
-    const name = inputName.value;
-    const score = inputScore.value;
-    if (name === '' || score === '') {
-      return;
-    }
-    const data = new Score(name, score);
-    recentScore.push(data);
-    localStorage.setItem('scores', JSON.stringify(recentScore));
-    palmares(data);
-    scoreContainer.style.border = '2px solid #000';
-    clearField();
-    refresher();
+const url = 'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/';
+const gameId = () => {
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name: 'christian game' }),
+  }).then((response) => response.json()).then((data) => {
+    localStorage.setItem('gameId', JSON.stringify(data));
   });
-}
-addScore();
+};
+gameId(url);
 
-recentScore.forEach((score) => {
-  palmares(score);
+const urlExample = `${url}TmfTBSDlBvHPPY995ITG/scores`;
+
+async function addGame(urlExample, newGame) {
+  await fetch(urlExample, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newGame),
+  }).then((response) => response.json());
+}
+
+async function getData(url) {
+  const a = await fetch(url);
+  const b = await a.json();
+  recentScore = b.result;
+  recentScore.forEach((score) => {
+    palmares(score);
+  });
+  localStorage.setItem('scores', JSON.stringify(recentScore));
+}
+
+const addButton = document.querySelector('.add');
+addButton.addEventListener('click', () => {
+  const user = inputName.value;
+  const score = inputScore.value;
+  if (user === '' || score === '') {
+    return;
+  }
+  const newGame = new Score(user, score);
+  recentScore.unshift(newGame);
   scoreContainer.style.border = '2px solid #000';
+  clearField();
+  addGame(urlExample, newGame);
+});
+const refreshBtn = document.querySelector('.refresh');
+
+refreshBtn.addEventListener('click', () => {
+  getData(`${url}TmfTBSDlBvHPPY995ITG/scores/`);
 });
 
-refresher();
-
-const baseUrl = fetch('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/:id/scores/');
-
-async function getData() {
-  try {
-    const data = await baseUrl;
-    const response = await data.json();
-    const recentScore = response.result.map((item) => item);
-    recentScore.forEach((game) => {
-      palmares(game);
-    });
-    console.log(recentScore);
-  } catch (error) {
-    // return 'error';
-  }
-}
-getData();
-
-// async function addGame() {
-//   const user = inputName.value;
-//   const score = inputScore.value;
-//   try {
-//     const newGame = new Score(user, score);
-//     const config = {
-//       method: 'POST',
-//       headers: {
-//         Accept: 'application/json',
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(newGame),
-//     };
-
-//     const data = await fetch(baseUrl, config);
-//     recentScore.push(newGame);
-//     palmares();
-//   } catch (error) {
-//     return error;
-//   }
-// }
-
-// addGame();
+window.onload = () => {
+  recentScore.forEach((score) => palmares(score));
+  scoreContainer.style.border = '2px solid #000';
+};
