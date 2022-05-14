@@ -13,7 +13,7 @@
 
 ## Live Demo
 
-Not yet available
+You can check the live demo [here](https://christianbiring1.github.io/Leaderboard/)
 
 ### Prerequisites
 
