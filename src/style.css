@@ -8,7 +8,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@200;400&display=swap');
 
 body {
-  background: #66339933;
+  background: #6393;
 }
 
 .wrapper {
@@ -58,10 +58,6 @@ input:focus {
   float: right;
 }
 
-li:nth-child(even) {
-  background-color: #fff;
-}
-
 .palmares {
   max-height: 400px;
   overflow-y: scroll;
@@ -88,6 +84,10 @@ li {
   list-style-type: none;
 }
 
+li:nth-child(even) {
+  background-color: #fff;
+}
+
 li:nth-child(odd) {
   background-color: lightgrey;
 }
@@ -100,6 +100,7 @@ footer {
   background-color: lightgrey;
   padding: 10px;
 }
+
 .footer {
   font-family: 'Poppins', sans-serif;
   text-align: center;
@@ -132,15 +133,15 @@ footer {
   }
 
   .add {
-  margin-top: 20px;
-  float: right;
+    margin-top: 20px;
+    float: right;
   }
 
   input {
-  margin-top: 20px;
-  padding: 0.45rem 0.5rem;
-  font-size: 15px;
-  width: 400px;
+    margin-top: 20px;
+    padding: 0.45rem 0.5rem;
+    font-size: 15px;
+    width: 400px;
   }
 
   input:focus {
@@ -153,7 +154,7 @@ footer {
     max-height: 400px;
     overflow-y: scroll;
   }
-  
+
   .stat {
     padding: 10px;
   }
