@@ -1,5 +1,3 @@
-// import refresher from './refresh.js';
-
 const scoreContainer = document.querySelector('.palmares');
 const form = document.querySelector('.form');
 const inputName = document.querySelector('.name');
